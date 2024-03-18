@@ -1,0 +1,4 @@
+pip install --upgrade huggingface_hub
+huggingface-cli download xai-org/grok-1 --repo-type model --include ckpt/tensor* --local-dir checkpoints/ckpt-0 --local-dir-use-symlinks False
+pip install -U "jax[cuda12_pip]" -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html --user
+pip install -r requirements.txt
