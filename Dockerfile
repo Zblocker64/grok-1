@@ -39,10 +39,9 @@ RUN pip install -U 'huggingface_hub[cli]'
 RUN --mount=type=cache,target=/root/.cache/pip \
     --mount=type=bind,source=requirements.txt,target=requirements.txt \
     python -m pip install -r requirements.txt
-
 # Switch to the non-privileged user to run the application.
-USER appuser
-
+RUN chmod -R 755 /app
+WORKDIR /app
 
 # Copy the source code into the container.
 COPY . .
@@ -50,4 +49,4 @@ COPY . .
 # Expose the port that the application listens on.
 EXPOSE 8000
 # Run the application.
-CMD pip install -U "jax[cuda12_pip]" -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html --user ; huggingface-cli download xai-org/grok-1 --repo-type model --include ckpt/tensor* --local-dir app/checkpoints/ckpt-0 --local-dir-use-symlinks False ; pip install -r requirements.txt ; python run.py
+CMD pip install -U "jax[cuda12_pip]" -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html --user ; huggingface-cli download xai-org/grok-1 --repo-type model --include ckpt-0/* --local-dir /app/checkpoints --local-dir-use-symlinks False ;  mv /app/checkpoints/ckpt /app/checkpoints/ckpt-0 ; mkdir /root/shm ; sed -i "s;/dev/shm/;/root/shm/;g" /app/checkpoint.py ; pip install -r requirements.txt ; python run.py
