@@ -17,7 +17,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/zblocker64/publish-packages/game
+          images: ghcr.io/zblocker64/publish-packages/grok-10
           tags: type=sha
       - name: Login to GHCR
         uses: docker/login-action@v3
